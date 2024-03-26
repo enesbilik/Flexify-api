@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Core.Security.Entities;
 
-public class EmailAuthenticator : Entity<int>
+public class EmailAuthenticator : Entity<Guid>
 {
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
     public string? ActivationKey { get; set; }
     public bool IsVerified { get; set; }
 
@@ -17,13 +17,13 @@ public class EmailAuthenticator : Entity<int>
 
     public EmailAuthenticator() { }
 
-    public EmailAuthenticator(int userId, bool isVerified)
+    public EmailAuthenticator(Guid userId, bool isVerified)
     {
         UserId = userId;
         IsVerified = isVerified;
     }
 
-    public EmailAuthenticator(int id, int userId, bool isVerified)
+    public EmailAuthenticator(Guid id, Guid userId, bool isVerified)
         : base(id)
     {
         UserId = userId;
