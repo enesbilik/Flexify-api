@@ -15,4 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.Persistence\Core.Persistence.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.17" />
+  </ItemGroup>
 </Project>

@@ -1,7 +1,10 @@
 ﻿using Application;
 using Persistence;
 using Core.CrossCuttingConcerns.Exceptions.Extensions;
-
+using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Persistence.Contexts;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +22,22 @@ builder.Services.AddStackExchangeRedisCache(opt => opt.Configuration = "localhos
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.AddIdentityCore<AppUser>(opt =>
+{
+    opt.Password.RequireNonAlphanumeric = false;
+    opt.Password.RequireLowercase = false;
+    opt.Password.RequireUppercase = false;
+    opt.Password.RequiredLength = 2;
+    opt.Password.RequireDigit = false;
+    opt.SignIn.RequireConfirmedEmail = false;
+
+})
+    .AddRoles<AppRole>()
+    .AddEntityFrameworkStores<BaseDbContext>();
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,10 +49,10 @@ if (app.Environment.IsDevelopment())
 
 app.ConfigureCustomExceptionMiddleware();
 
-
-
+app.UseSession();
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

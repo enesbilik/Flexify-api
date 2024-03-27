@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Reflection.Emit;
-using System.Runtime.ConstrainedExecution;
-using Core.Security.Entities;
 using Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Persistence.Contexts;
 
-public class BaseDbContext : DbContext
+public class BaseDbContext : IdentityDbContext<AppUser, AppRole, Guid, AppUserClaim, AppUserRole, AppUserLogin, AppRoleClaim, AppUserToken>
 {
     protected IConfiguration Configuration { get; set; }
-
-    public DbSet<User> Users { get; set; }
-
 
 
 
@@ -27,6 +22,7 @@ public class BaseDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
