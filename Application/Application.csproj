@@ -10,11 +10,15 @@
     <None Remove="Services\" />
     <None Remove="Services\Repositories\" />
     <None Remove="Features\" />
+    <None Remove="Interfaces\" />
+    <None Remove="Interfaces\Tokens\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
     <Folder Include="Services\Repositories\" />
     <Folder Include="Features\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Interfaces\Tokens\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.Persistence\Core.Persistence.csproj" />
