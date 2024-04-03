@@ -29,7 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\Core\Core.Secuirty\Core.Secuirty.csproj" />
     <ProjectReference Include="..\Application\Application.csproj" />
   </ItemGroup>
 </Project>

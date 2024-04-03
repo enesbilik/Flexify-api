@@ -12,7 +12,7 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    [Migration("20240327152416_InitialMigration")]
+    [Migration("20240328220851_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -56,21 +56,21 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = new Guid("682bd438-dac9-485e-9eea-d1e506f96ae6"),
-                            ConcurrencyStamp = "f9e5401c-a20d-4349-b7c3-a46876b05df6",
+                            ConcurrencyStamp = "06743f50-c9cf-4754-b523-97df812d69c9",
                             Name = "Superadmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = new Guid("a4ad46b1-5cba-46fa-a804-0b81773b8ff0"),
-                            ConcurrencyStamp = "a2f5c29a-4a45-41a3-8a5b-ba4a85ffeacb",
+                            ConcurrencyStamp = "c13c85c8-8c46-4e85-8d1a-a096afab3319",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = new Guid("7459c39b-7569-41ed-9e20-523420e88247"),
-                            ConcurrencyStamp = "797ac7e5-04d8-481a-8e42-09809291355a",
+                            ConcurrencyStamp = "e676da53-6688-47ec-867d-18dd3dbdbdcc",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -113,6 +113,9 @@ namespace Persistence.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -151,7 +154,7 @@ namespace Persistence.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("RefreshRoken")
+                    b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("RefreshTokenExpiryTime")
@@ -184,17 +187,18 @@ namespace Persistence.Migrations
                         {
                             Id = new Guid("9f81f2ca-0dc5-4bb6-b8ea-e60f296b5231"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1e1df97b-c9ae-46bb-ab28-19593573960b",
+                            ConcurrencyStamp = "387941c3-f6f8-442b-a4c7-29a27748f427",
+                            CreatedDate = new DateTime(2024, 3, 28, 22, 8, 51, 381, DateTimeKind.Utc).AddTicks(9280),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Enes",
                             LastName = "Bilik",
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFcgvIbbI9AlAqfeFQK2uZgkxMjSHL/CJ8ypviUH3PT/7VysEXwNIYmr0oiDgoAdgw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFTY1BSoU8FxllFjYcFDaMs0Ev9i7tl+tqXWsLKxhkr6i1DhPMEuXrITc+l4dWnl4w==",
                             PhoneNumber = "+905442563413",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "c204f89f-1dcb-428e-bfc7-145aa30be427",
+                            SecurityStamp = "1d453de5-abdf-4b9b-9f3b-7e9215575d11",
                             TwoFactorEnabled = false,
                             UserName = "superadmin@gmail.com"
                         },
@@ -202,17 +206,18 @@ namespace Persistence.Migrations
                         {
                             Id = new Guid("cf6db848-b71b-4bb9-b37a-bd6e11f90f60"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "994ba79c-a205-4ac9-a94c-38f1093678f0",
+                            ConcurrencyStamp = "ff40b7f6-c3a8-44b0-a5eb-2560c29158b0",
+                            CreatedDate = new DateTime(2024, 3, 28, 22, 8, 51, 423, DateTimeKind.Utc).AddTicks(1950),
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Beyza",
                             LastName = "Kutsal",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEML8Icz5yH1tFwoeqws6nEuMQIVmapA0D/Ibuwx9YUkIPWcaFu4JF1+o9cuLg+c5Kw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJUngyKi//DdyEh9giIrirNY+AEX20NfV7XxCVOlS8JXOIkAAaPQ2hI3KQ3zk9leYg==",
                             PhoneNumber = "+905385438863",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3a0a1a40-9a99-4fed-8747-aae55676df5e",
+                            SecurityStamp = "570f89b1-4afa-4ee6-b56a-b29d8819f937",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });

@@ -11,6 +11,6 @@ public interface ITokenService
 
     string CreateRefreshToken();
 
-    ClaimsPrincipal? GetPrinipalFromExpiredToken();
+    ClaimsPrincipal? GetPrincipalFromExpiredToken(string? token);
 }
 

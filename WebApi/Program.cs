@@ -2,10 +2,7 @@
 using Persistence;
 using Infrastructure;
 using Core.CrossCuttingConcerns.Exceptions.Extensions;
-using Domain.Entities;
-using Microsoft.AspNetCore.Identity;
-using Persistence.Contexts;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,22 +20,35 @@ builder.Services.AddStackExchangeRedisCache(opt => opt.Configuration = "localhos
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
-
-builder.Services.AddIdentityCore<AppUser>(opt =>
+builder.Services.AddSwaggerGen(c =>
 {
-    opt.Password.RequireNonAlphanumeric = false;
-    opt.Password.RequireLowercase = false;
-    opt.Password.RequireUppercase = false;
-    opt.Password.RequiredLength = 2;
-    opt.Password.RequireDigit = false;
-    opt.SignIn.RequireConfirmedEmail = false;
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Flexify API", Version = "v1", Description = "Flexify API swagger client." });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "'Bearer' yazip bosluk biraktiktan sonra Token girebilirsiniz \r\n\r\n Örnegin: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\""
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
 
-})
-    .AddRoles<AppRole>()
-    .AddEntityFrameworkStores<BaseDbContext>();
-
+    });
+});
 
 
 var app = builder.Build();
@@ -50,9 +60,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.ConfigureCustomExceptionMiddleware();
+//app.ConfigureCustomExceptionMiddleware();
 
-app.UseSession();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

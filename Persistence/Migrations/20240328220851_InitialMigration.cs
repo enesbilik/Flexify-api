@@ -34,7 +34,8 @@ namespace Persistence.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RefreshRoken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -167,18 +168,18 @@ namespace Persistence.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("682bd438-dac9-485e-9eea-d1e506f96ae6"), "f9e5401c-a20d-4349-b7c3-a46876b05df6", "Superadmin", "SUPERADMIN" },
-                    { new Guid("7459c39b-7569-41ed-9e20-523420e88247"), "797ac7e5-04d8-481a-8e42-09809291355a", "User", "USER" },
-                    { new Guid("a4ad46b1-5cba-46fa-a804-0b81773b8ff0"), "a2f5c29a-4a45-41a3-8a5b-ba4a85ffeacb", "Admin", "ADMIN" }
+                    { new Guid("682bd438-dac9-485e-9eea-d1e506f96ae6"), "06743f50-c9cf-4754-b523-97df812d69c9", "Superadmin", "SUPERADMIN" },
+                    { new Guid("7459c39b-7569-41ed-9e20-523420e88247"), "e676da53-6688-47ec-867d-18dd3dbdbdcc", "User", "USER" },
+                    { new Guid("a4ad46b1-5cba-46fa-a804-0b81773b8ff0"), "c13c85c8-8c46-4e85-8d1a-a096afab3319", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshRoken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("9f81f2ca-0dc5-4bb6-b8ea-e60f296b5231"), 0, "1e1df97b-c9ae-46bb-ab28-19593573960b", "superadmin@gmail.com", true, "Enes", "Bilik", false, null, "SUPERADMIN@GMAIL.COM", null, "AQAAAAIAAYagAAAAEFcgvIbbI9AlAqfeFQK2uZgkxMjSHL/CJ8ypviUH3PT/7VysEXwNIYmr0oiDgoAdgw==", "+905442563413", true, null, null, "c204f89f-1dcb-428e-bfc7-145aa30be427", false, "superadmin@gmail.com" },
-                    { new Guid("cf6db848-b71b-4bb9-b37a-bd6e11f90f60"), 0, "994ba79c-a205-4ac9-a94c-38f1093678f0", "admin@gmail.com", true, "Beyza", "Kutsal", false, null, "ADMIN@GMAIL.COM", null, "AQAAAAIAAYagAAAAEML8Icz5yH1tFwoeqws6nEuMQIVmapA0D/Ibuwx9YUkIPWcaFu4JF1+o9cuLg+c5Kw==", "+905385438863", false, null, null, "3a0a1a40-9a99-4fed-8747-aae55676df5e", false, "admin@gmail.com" }
+                    { new Guid("9f81f2ca-0dc5-4bb6-b8ea-e60f296b5231"), 0, "387941c3-f6f8-442b-a4c7-29a27748f427", new DateTime(2024, 3, 28, 22, 8, 51, 381, DateTimeKind.Utc).AddTicks(9280), "superadmin@gmail.com", true, "Enes", "Bilik", false, null, "SUPERADMIN@GMAIL.COM", null, "AQAAAAIAAYagAAAAEFTY1BSoU8FxllFjYcFDaMs0Ev9i7tl+tqXWsLKxhkr6i1DhPMEuXrITc+l4dWnl4w==", "+905442563413", true, null, null, "1d453de5-abdf-4b9b-9f3b-7e9215575d11", false, "superadmin@gmail.com" },
+                    { new Guid("cf6db848-b71b-4bb9-b37a-bd6e11f90f60"), 0, "ff40b7f6-c3a8-44b0-a5eb-2560c29158b0", new DateTime(2024, 3, 28, 22, 8, 51, 423, DateTimeKind.Utc).AddTicks(1950), "admin@gmail.com", true, "Beyza", "Kutsal", false, null, "ADMIN@GMAIL.COM", null, "AQAAAAIAAYagAAAAEJUngyKi//DdyEh9giIrirNY+AEX20NfV7XxCVOlS8JXOIkAAaPQ2hI3KQ3zk9leYg==", "+905385438863", false, null, null, "570f89b1-4afa-4ee6-b56a-b29d8819f937", false, "admin@gmail.com" }
                 });
 
             migrationBuilder.InsertData(

@@ -1,4 +1,5 @@
 ﻿using System;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,18 @@ public static class PersistenceServiceRegistration
 
         services.AddDbContext<BaseDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("Flexify")));
 
+        services.AddIdentityCore<AppUser>(opt =>
+        {
+            opt.Password.RequireNonAlphanumeric = false;
+            opt.Password.RequireLowercase = false;
+            opt.Password.RequireUppercase = false;
+            opt.Password.RequiredLength = 2;
+            opt.Password.RequireDigit = false;
+            opt.SignIn.RequireConfirmedEmail = false;
+
+        })
+    .AddRoles<AppRole>()
+    .AddEntityFrameworkStores<BaseDbContext>();
 
 
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq.Dynamic.Core.Tokenizer;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Application.Interfaces.Tokens;
 using Domain.Entities;
@@ -16,10 +18,10 @@ public class TokenService : ITokenService
     private readonly UserManager<AppUser> _userManager;
     private readonly TokenOptions _tokenOptions;
 
-    public TokenService(UserManager<AppUser> userManager, TokenOptions tokenOptions)
+    public TokenService(IOptions<TokenOptions> options, UserManager<AppUser> userManager)
     {
+        _tokenOptions = options.Value;
         _userManager = userManager;
-        _tokenOptions = tokenOptions;
     }
 
     public async Task<JwtSecurityToken> CreateToken(AppUser user, IList<string> roles)
@@ -54,14 +56,34 @@ public class TokenService : ITokenService
 
     public string CreateRefreshToken()
     {
-        throw new NotImplementedException();
+        var randomNumber = new byte[64];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomNumber);
+        return Convert.ToBase64String(randomNumber);
     }
 
 
 
-    public ClaimsPrincipal? GetPrinipalFromExpiredToken()
+    public ClaimsPrincipal? GetPrincipalFromExpiredToken(string? token)
     {
-        throw new NotImplementedException();
+        TokenValidationParameters tokenValidationParamaters = new()
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenOptions.SecurityKey)),
+            ValidateLifetime = false
+        };
+
+        JwtSecurityTokenHandler tokenHandler = new();
+        var principal = tokenHandler.ValidateToken(token, tokenValidationParamaters, out SecurityToken securityToken);
+        if (securityToken is not JwtSecurityToken jwtSecurityToken
+            || !jwtSecurityToken.Header.Alg
+            .Equals(SecurityAlgorithms.HmacSha256,
+            StringComparison.InvariantCultureIgnoreCase))
+            throw new SecurityTokenException("Token bulunamadı.");
+
+        return principal;
     }
 }
 
