@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Drawing.Drawing2D;
+using Application.DTOs;
+using Application.Enums;
 using Application.Features.Auth.Rules;
+using Application.Services.Repositories;
 using AutoMapper;
 using Core.Application.Pipelines.Logging;
 using Domain.Entities;
@@ -13,32 +16,44 @@ namespace Application.Features.Auth.Commands.Register;
 
 public class RegisterCommand : IRequest<RegisteredCommandResponse>, ILoggableRequest
 {
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
     public string ConfirmPassword { get; set; }
+    public UserType UserType { get; set; } = UserType.None; // Default value
+
+    public ConsultantInfoDto? ConsultantInfoDto { get; set; } =
+        new ConsultantInfoDto(); // Default value
+
+    public ClientInfoDto? ClientInfoDto { get; set; } = new ClientInfoDto(); // Default value
 
 
-
-    public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisteredCommandResponse>
+    public class
+        RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisteredCommandResponse>
     {
         private readonly AuthRules _authRules;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IMapper _mapper;
+        private readonly IConsultantRepository _consultantRepository;
+        private readonly IClientRepository _clientRepository;
 
-        public RegisterCommandHandler(AuthRules authRules, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IMapper mapper)
+        public RegisterCommandHandler(AuthRules authRules, UserManager<AppUser> userManager,
+            RoleManager<AppRole> roleManager, IMapper mapper,
+            IConsultantRepository consultantRepository, IClientRepository clientRepository)
         {
             _authRules = authRules;
             _userManager = userManager;
             _roleManager = roleManager;
             _mapper = mapper;
+            _consultantRepository = consultantRepository;
+            _clientRepository = clientRepository;
         }
 
-        public async Task<RegisteredCommandResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
+        public async Task<RegisteredCommandResponse> Handle(RegisterCommand request,
+            CancellationToken cancellationToken)
         {
-            await _authRules.UserMailAlreadyExists(await _userManager.FindByEmailAsync(request.Email));
+            await _authRules.UserMailAlreadyExists(
+                await _userManager.FindByEmailAsync(request.Email));
 
             AppUser user = _mapper.Map<AppUser>(request);
             user.UserName = request.Email;
@@ -58,12 +73,24 @@ public class RegisterCommand : IRequest<RegisteredCommandResponse>, ILoggableReq
                     });
 
                 await _userManager.AddToRoleAsync(user, "user");
+
+                if (request.UserType == UserType.Client)
+                {
+                    var client = _mapper.Map<Client>(request.ClientInfoDto);
+                    client.Email = request.Email;
+                    await _clientRepository.AddAsync(client);
+                }
+                else if (request.UserType == UserType.Consultant)
+                {
+                    var consultant = _mapper.Map<Consultant>(request.ConsultantInfoDto);
+                    consultant.Email = request.Email;
+                    await _consultantRepository.AddAsync(consultant);
+                }
             }
 
-            RegisteredCommandResponse registeredCommandResponse = _mapper.Map<RegisteredCommandResponse>(user);
+            RegisteredCommandResponse registeredCommandResponse =
+                _mapper.Map<RegisteredCommandResponse>(user);
             return registeredCommandResponse;
         }
-
     }
 }
-

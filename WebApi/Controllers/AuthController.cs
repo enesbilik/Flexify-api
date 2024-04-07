@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Application.Features.Auth.Commands.Login;
+﻿using Application.Features.Auth.Commands.Login;
 using Application.Features.Auth.Commands.RefreshToken;
 using Application.Features.Auth.Commands.Register;
 using Application.Features.Auth.Commands.Revoke;
 using Application.Features.Auth.Commands.RevokeAll;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -15,11 +10,8 @@ namespace WebApi.Controllers;
 
 [Route("api/[controller]/[action]")]
 [ApiController]
-
 public class AuthController : BaseController
 {
-
-
     [HttpPost]
     public async Task<IActionResult> Register([FromBody] RegisterCommand request)
     {

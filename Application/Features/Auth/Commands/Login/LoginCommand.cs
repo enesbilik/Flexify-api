@@ -16,9 +16,7 @@ public class LoginCommand : IRequest<LoginedCommandResponse>
     public string Email { get; set; }
     [DefaultValue("123321")]
     public string Password { get; set; }
-
-
-
+    
 
     public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginedCommandResponse>
     {
@@ -68,7 +66,6 @@ public class LoginCommand : IRequest<LoginedCommandResponse>
                 RefreshToken = refreshToken,
                 Expiration = token.ValidTo
             };
-
 
         }
     }

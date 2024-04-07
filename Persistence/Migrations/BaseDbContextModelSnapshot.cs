@@ -53,21 +53,21 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = new Guid("682bd438-dac9-485e-9eea-d1e506f96ae6"),
-                            ConcurrencyStamp = "06743f50-c9cf-4754-b523-97df812d69c9",
+                            ConcurrencyStamp = "1af0c72f-ccf9-4a53-a8e3-50a0350ba9ba",
                             Name = "Superadmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = new Guid("a4ad46b1-5cba-46fa-a804-0b81773b8ff0"),
-                            ConcurrencyStamp = "c13c85c8-8c46-4e85-8d1a-a096afab3319",
+                            ConcurrencyStamp = "e238ffc9-950a-4fec-b4cd-890275244bf8",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = new Guid("7459c39b-7569-41ed-9e20-523420e88247"),
-                            ConcurrencyStamp = "e676da53-6688-47ec-867d-18dd3dbdbdcc",
+                            ConcurrencyStamp = "8440f5d7-706f-4118-a441-69bada2ee43e",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -103,9 +103,6 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -116,23 +113,6 @@ namespace Persistence.Migrations
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -148,9 +128,6 @@ namespace Persistence.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
                     b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(max)");
 
@@ -159,9 +136,6 @@ namespace Persistence.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -183,39 +157,25 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = new Guid("9f81f2ca-0dc5-4bb6-b8ea-e60f296b5231"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "387941c3-f6f8-442b-a4c7-29a27748f427",
-                            CreatedDate = new DateTime(2024, 3, 28, 22, 8, 51, 381, DateTimeKind.Utc).AddTicks(9280),
+                            ConcurrencyStamp = "d60a44d7-a378-4bff-aacd-49110303ca82",
+                            CreatedDate = new DateTime(2024, 4, 7, 14, 47, 1, 212, DateTimeKind.Utc).AddTicks(1850),
                             Email = "superadmin@gmail.com",
-                            EmailConfirmed = true,
-                            FirstName = "Enes",
-                            LastName = "Bilik",
-                            LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFTY1BSoU8FxllFjYcFDaMs0Ev9i7tl+tqXWsLKxhkr6i1DhPMEuXrITc+l4dWnl4w==",
-                            PhoneNumber = "+905442563413",
-                            PhoneNumberConfirmed = true,
-                            SecurityStamp = "1d453de5-abdf-4b9b-9f3b-7e9215575d11",
-                            TwoFactorEnabled = false,
+                            NormalizedUserName = "SUPERADMIN@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAXwqtuG/ofpa02zfmeHb/yNaDHXmprS+lwRQxYlTMMStXVt8uUCqC21Camn247XgA==",
+                            SecurityStamp = "e3e4a3d5-a7ee-4856-ad8d-3cb473d8e815",
                             UserName = "superadmin@gmail.com"
                         },
                         new
                         {
                             Id = new Guid("cf6db848-b71b-4bb9-b37a-bd6e11f90f60"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "ff40b7f6-c3a8-44b0-a5eb-2560c29158b0",
-                            CreatedDate = new DateTime(2024, 3, 28, 22, 8, 51, 423, DateTimeKind.Utc).AddTicks(1950),
+                            ConcurrencyStamp = "7a61e517-d620-42d7-82c9-0c1198819d4f",
+                            CreatedDate = new DateTime(2024, 4, 7, 14, 47, 1, 253, DateTimeKind.Utc).AddTicks(4700),
                             Email = "admin@gmail.com",
-                            EmailConfirmed = true,
-                            FirstName = "Beyza",
-                            LastName = "Kutsal",
-                            LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJUngyKi//DdyEh9giIrirNY+AEX20NfV7XxCVOlS8JXOIkAAaPQ2hI3KQ3zk9leYg==",
-                            PhoneNumber = "+905385438863",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "570f89b1-4afa-4ee6-b56a-b29d8819f937",
-                            TwoFactorEnabled = false,
+                            NormalizedUserName = "ADMIN@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDmrkUpGUgzuob64KLyII5NuviQYEyI3tnuCquLsCJ1v1iO0x8+24nYQLXd32yTSuA==",
+                            SecurityStamp = "ac177e96-f37f-4826-8da2-3c497183d473",
                             UserName = "admin@gmail.com"
                         });
                 });
@@ -313,6 +273,190 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entities.Appointment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ConsultantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("EndTime");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("StartTime");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int")
+                        .HasColumnName("State");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("ConsultantId");
+
+                    b.ToTable("Appointments", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Client", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Email");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Name");
+
+                    b.Property<string>("SurName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("SurName");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clients", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Consultant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("About")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("About");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Email");
+
+                    b.Property<int>("Experience")
+                        .HasColumnType("int")
+                        .HasColumnName("Experience");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Location");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Name");
+
+                    b.Property<string>("PhotoUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("PhotoUrl");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float")
+                        .HasColumnName("Rating");
+
+                    b.Property<int>("ServiceCount")
+                        .HasColumnType("int")
+                        .HasColumnName("ServiceCount");
+
+                    b.Property<string>("SurName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("SurName");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Title");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Consultants", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Review", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
+                        .HasColumnName("Comment");
+
+                    b.Property<Guid>("ConsultantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int")
+                        .HasColumnName("Rating");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("ConsultantId");
+
+                    b.ToTable("Reviews", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.AppRoleClaim", b =>
                 {
                     b.HasOne("Domain.Entities.AppRole", null)
@@ -362,6 +506,58 @@ namespace Persistence.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.Appointment", b =>
+                {
+                    b.HasOne("Domain.Entities.Client", "Client")
+                        .WithMany("Appointments")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Consultant", "Consultant")
+                        .WithMany("Appointments")
+                        .HasForeignKey("ConsultantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Consultant");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Review", b =>
+                {
+                    b.HasOne("Domain.Entities.Client", "Client")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Consultant", "Consultant")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ConsultantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Consultant");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Client", b =>
+                {
+                    b.Navigation("Appointments");
+
+                    b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Consultant", b =>
+                {
+                    b.Navigation("Appointments");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

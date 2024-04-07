@@ -32,8 +32,6 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -41,20 +39,55 @@ namespace Persistence.Migrations
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Clients",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SurName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clients", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Consultants",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SurName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    About = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Experience = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Rating = table.Column<double>(type: "float", nullable: false),
+                    ServiceCount = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Consultants", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -163,23 +196,84 @@ namespace Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Appointments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    State = table.Column<int>(type: "int", nullable: false),
+                    ConsultantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Consultants_ConsultantId",
+                        column: x => x.ConsultantId,
+                        principalTable: "Consultants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reviews",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Rating = table.Column<int>(type: "int", nullable: false),
+                    ConsultantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Consultants_ConsultantId",
+                        column: x => x.ConsultantId,
+                        principalTable: "Consultants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("682bd438-dac9-485e-9eea-d1e506f96ae6"), "06743f50-c9cf-4754-b523-97df812d69c9", "Superadmin", "SUPERADMIN" },
-                    { new Guid("7459c39b-7569-41ed-9e20-523420e88247"), "e676da53-6688-47ec-867d-18dd3dbdbdcc", "User", "USER" },
-                    { new Guid("a4ad46b1-5cba-46fa-a804-0b81773b8ff0"), "c13c85c8-8c46-4e85-8d1a-a096afab3319", "Admin", "ADMIN" }
+                    { new Guid("682bd438-dac9-485e-9eea-d1e506f96ae6"), "1af0c72f-ccf9-4a53-a8e3-50a0350ba9ba", "Superadmin", "SUPERADMIN" },
+                    { new Guid("7459c39b-7569-41ed-9e20-523420e88247"), "8440f5d7-706f-4118-a441-69bada2ee43e", "User", "USER" },
+                    { new Guid("a4ad46b1-5cba-46fa-a804-0b81773b8ff0"), "e238ffc9-950a-4fec-b4cd-890275244bf8", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "ConcurrencyStamp", "CreatedDate", "Email", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("9f81f2ca-0dc5-4bb6-b8ea-e60f296b5231"), 0, "387941c3-f6f8-442b-a4c7-29a27748f427", new DateTime(2024, 3, 28, 22, 8, 51, 381, DateTimeKind.Utc).AddTicks(9280), "superadmin@gmail.com", true, "Enes", "Bilik", false, null, "SUPERADMIN@GMAIL.COM", null, "AQAAAAIAAYagAAAAEFTY1BSoU8FxllFjYcFDaMs0Ev9i7tl+tqXWsLKxhkr6i1DhPMEuXrITc+l4dWnl4w==", "+905442563413", true, null, null, "1d453de5-abdf-4b9b-9f3b-7e9215575d11", false, "superadmin@gmail.com" },
-                    { new Guid("cf6db848-b71b-4bb9-b37a-bd6e11f90f60"), 0, "ff40b7f6-c3a8-44b0-a5eb-2560c29158b0", new DateTime(2024, 3, 28, 22, 8, 51, 423, DateTimeKind.Utc).AddTicks(1950), "admin@gmail.com", true, "Beyza", "Kutsal", false, null, "ADMIN@GMAIL.COM", null, "AQAAAAIAAYagAAAAEJUngyKi//DdyEh9giIrirNY+AEX20NfV7XxCVOlS8JXOIkAAaPQ2hI3KQ3zk9leYg==", "+905385438863", false, null, null, "570f89b1-4afa-4ee6-b56a-b29d8819f937", false, "admin@gmail.com" }
+                    { new Guid("9f81f2ca-0dc5-4bb6-b8ea-e60f296b5231"), "d60a44d7-a378-4bff-aacd-49110303ca82", new DateTime(2024, 4, 7, 14, 47, 1, 212, DateTimeKind.Utc).AddTicks(1850), "superadmin@gmail.com", "SUPERADMIN@GMAIL.COM", "SUPERADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEAXwqtuG/ofpa02zfmeHb/yNaDHXmprS+lwRQxYlTMMStXVt8uUCqC21Camn247XgA==", null, null, null, "e3e4a3d5-a7ee-4856-ad8d-3cb473d8e815", "superadmin@gmail.com" },
+                    { new Guid("cf6db848-b71b-4bb9-b37a-bd6e11f90f60"), "7a61e517-d620-42d7-82c9-0c1198819d4f", new DateTime(2024, 4, 7, 14, 47, 1, 253, DateTimeKind.Utc).AddTicks(4700), "admin@gmail.com", "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEDmrkUpGUgzuob64KLyII5NuviQYEyI3tnuCquLsCJ1v1iO0x8+24nYQLXd32yTSuA==", null, null, null, "ac177e96-f37f-4826-8da2-3c497183d473", "admin@gmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -190,6 +284,16 @@ namespace Persistence.Migrations
                     { new Guid("682bd438-dac9-485e-9eea-d1e506f96ae6"), new Guid("9f81f2ca-0dc5-4bb6-b8ea-e60f296b5231") },
                     { new Guid("a4ad46b1-5cba-46fa-a804-0b81773b8ff0"), new Guid("cf6db848-b71b-4bb9-b37a-bd6e11f90f60") }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_ClientId",
+                table: "Appointments",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_ConsultantId",
+                table: "Appointments",
+                column: "ConsultantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -229,11 +333,24 @@ namespace Persistence.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_ClientId",
+                table: "Reviews",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_ConsultantId",
+                table: "Reviews",
+                column: "ConsultantId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Appointments");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -250,10 +367,19 @@ namespace Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Reviews");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Clients");
+
+            migrationBuilder.DropTable(
+                name: "Consultants");
         }
     }
 }

@@ -29,6 +29,17 @@ public class UserConfiguration : IEntityTypeConfiguration<AppUser>
         builder.Property(u => u.Email).HasMaxLength(256);
         builder.Property(u => u.NormalizedEmail).HasMaxLength(256);
 
+
+        builder
+            .Ignore(u => u.AccessFailedCount)
+            .Ignore(u => u.EmailConfirmed)
+            .Ignore(u => u.LockoutEnabled)
+            .Ignore(u => u.LockoutEnd)
+            .Ignore(u => u.PhoneNumberConfirmed)
+            .Ignore(u => u.TwoFactorEnabled);
+
+
+
         // The relationships between User and other entity types
         // Note that these relationships are configured with no navigation properties
 
@@ -50,10 +61,7 @@ public class UserConfiguration : IEntityTypeConfiguration<AppUser>
             UserName = "superadmin@gmail.com",
             Email = "superadmin@gmail.com",
             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
-            PhoneNumber = "+905442563413",
-            FirstName = "Enes",
-            LastName = "Bilik",
-            PhoneNumberConfirmed = true,
+            NormalizedUserName = "SUPERADMIN@GMAIL.COM",
             EmailConfirmed = true,
             SecurityStamp = Guid.NewGuid().ToString(),
         };
@@ -66,10 +74,7 @@ public class UserConfiguration : IEntityTypeConfiguration<AppUser>
             UserName = "admin@gmail.com",
             Email = "admin@gmail.com",
             NormalizedEmail = "ADMIN@GMAIL.COM",
-            PhoneNumber = "+905385438863",
-            FirstName = "Beyza",
-            LastName = "Kutsal",
-            PhoneNumberConfirmed = false,
+            NormalizedUserName = "ADMIN@GMAIL.COM",
             EmailConfirmed = true,
             SecurityStamp = Guid.NewGuid().ToString(),
         };

@@ -1,0 +1,12 @@
+Auth işlemleri yapılacak
+  2 farklı user için login, register yapılacak
+  
+Client için controller hazırlanacak
+
+Consultant için controller hazırlanacak
+
+Appointments tablosundaki randevular için yapı düşünülecek
+
+
+
+

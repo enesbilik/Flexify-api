@@ -1,4 +1,6 @@
 ﻿using System;
+using Application.DTOs;
+using Application.Enums;
 using FluentValidation;
 
 namespace Application.Features.Auth.Commands.Register;
@@ -7,18 +9,6 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
 {
     public RegisterCommandValidator()
     {
-        RuleFor(x => x.FirstName)
-            .NotEmpty()
-            .MaximumLength(50)
-            .MinimumLength(2)
-            .WithName("İsim");
-
-        RuleFor(x => x.LastName)
-            .NotEmpty()
-            .MaximumLength(50)
-            .MinimumLength(2)
-            .WithName("Soy İsim");
-
         RuleFor(x => x.Email)
             .NotEmpty()
             .MaximumLength(60)
@@ -36,5 +26,22 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
             .MinimumLength(6)
             .Equal(x => x.Password)
             .WithName("Parola Tekrarı");
+
+        RuleFor(x => x.UserType)
+            .IsInEnum()
+            .WithName("Kullanıcı Tipi Hatalı");
+
+
+        When(x => x.UserType == UserType.Consultant, () =>
+        {
+            RuleFor(x => x.ConsultantInfoDto)
+                .SetValidator(new ConsultantInfoValidator());
+        });
+
+        When(x => x.UserType == UserType.Client, () =>
+        {
+            RuleFor(x => x.ClientInfoDto)
+                .SetValidator(new ClientInfoValidator());
+        });
     }
 }

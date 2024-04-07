@@ -8,6 +8,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+// builder.Services.AddCors(
+//     options =>
+//     {
+//         options.AddDefaultPolicy(policy =>
+//         {
+//             policy.AllowCredentials();
+//             policy.AllowAnyHeader();
+//             policy.AllowAnyOrigin();
+//             policy.AllowAnyMethod();
+//         });
+//     }
+// );
+
 builder.Services.AddControllers();
 builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
@@ -23,7 +36,9 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Flexify API", Version = "v1", Description = "Flexify API swagger client." });
+    c.SwaggerDoc("v1",
+        new OpenApiInfo
+            { Title = "Flexify API", Version = "v1", Description = "Flexify API swagger client." });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
         Name = "Authorization",
@@ -31,7 +46,8 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "'Bearer' yazip bosluk biraktiktan sonra Token girebilirsiniz \r\n\r\n Örnegin: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\""
+        Description =
+            "'Bearer' yazip bosluk biraktiktan sonra Token girebilirsiniz \r\n\r\n Örnegin: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\""
     });
     c.AddSecurityRequirement(new OpenApiSecurityRequirement()
     {
@@ -46,7 +62,6 @@ builder.Services.AddSwaggerGen(c =>
             },
             Array.Empty<string>()
         }
-
     });
 });
 
@@ -70,4 +85,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
