@@ -23,6 +23,8 @@
 		<None Remove="Features\Auth\Commands\RevokeAll\" />
 	</ItemGroup>
 	<ItemGroup>
+		<Folder Include="Features\Appointment\Constants" />
+		<Folder Include="Features\Appointment\Rules" />
 		<Folder Include="Services\" />
 		<Folder Include="Services\Repositories\" />
 		<Folder Include="Features\" />

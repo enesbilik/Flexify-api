@@ -17,7 +17,7 @@ public class MappingProfiles : Profile
         CreateMap<AppUser, RegisterCommand>().ReverseMap();
         CreateMap<AppUser, RegisteredCommandResponse>().ReverseMap();
         
-        CreateMap<Consultant, ConsultantInfoDto>().ReverseMap();
+        CreateMap<Domain.Entities.Consultant, ConsultantInfoDto>().ReverseMap();
         CreateMap<Client, ClientInfoDto>().ReverseMap();
         
 

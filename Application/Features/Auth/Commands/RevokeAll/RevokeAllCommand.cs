@@ -1,6 +1,8 @@
 ﻿using System;
 using AutoMapper;
 using Core.Application.Bases;
+using Core.Application.Pipelines.Logging;
+using Core.Application.Pipelines.Transaction;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -9,9 +11,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Auth.Commands.RevokeAll;
 
-public class RevokeAllCommand : IRequest<Unit>
+public class RevokeAllCommand : IRequest<Unit>, ITransactionalRequest, ILoggableRequest
 {
-
     public class RevokeAllCommandHandler : IRequestHandler<RevokeAllCommand, Unit>
     {
         private readonly UserManager<AppUser> _userManager;
@@ -21,7 +22,8 @@ public class RevokeAllCommand : IRequest<Unit>
             _userManager = userManager;
         }
 
-        public async Task<Unit> Handle(RevokeAllCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RevokeAllCommand request,
+            CancellationToken cancellationToken)
         {
             List<AppUser> users = await _userManager.Users.ToListAsync(cancellationToken);
 
@@ -35,4 +37,3 @@ public class RevokeAllCommand : IRequest<Unit>
         }
     }
 }
-

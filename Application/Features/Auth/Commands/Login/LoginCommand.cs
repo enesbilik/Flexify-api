@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
+using Core.Application.Pipelines.Logging;
+using Core.Application.Pipelines.Transaction;
 
 namespace Application.Features.Auth.Commands.Login;
 
-public class LoginCommand : IRequest<LoginedCommandResponse>
+public class LoginCommand : IRequest<LoginedCommandResponse>, ITransactionalRequest,
+    ILoggableRequest
 {
-    [DefaultValue("hasankaya@gmail.com")]
-    public string Email { get; set; }
-    [DefaultValue("123321")]
-    public string Password { get; set; }
-    
+    [DefaultValue("hasankaya@gmail.com")] public string Email { get; set; }
+    [DefaultValue("123321")] public string Password { get; set; }
+
 
     public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginedCommandResponse>
     {
@@ -25,7 +26,8 @@ public class LoginCommand : IRequest<LoginedCommandResponse>
         private readonly ITokenService _tokenService;
         private readonly AuthRules _authRules;
 
-        public LoginCommandHandler(UserManager<AppUser> userManager, IConfiguration configuration, ITokenService tokenService, AuthRules authRules)
+        public LoginCommandHandler(UserManager<AppUser> userManager, IConfiguration configuration,
+            ITokenService tokenService, AuthRules authRules)
         {
             _userManager = userManager;
             _configuration = configuration;
@@ -33,7 +35,8 @@ public class LoginCommand : IRequest<LoginedCommandResponse>
             _authRules = authRules;
         }
 
-        public async Task<LoginedCommandResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async Task<LoginedCommandResponse> Handle(LoginCommand request,
+            CancellationToken cancellationToken)
         {
             AppUser? user = await _userManager.FindByEmailAsync(request.Email);
 
@@ -48,7 +51,8 @@ public class LoginCommand : IRequest<LoginedCommandResponse>
             JwtSecurityToken token = await _tokenService.CreateToken(user, roles);
             string refreshToken = _tokenService.CreateRefreshToken();
 
-            _ = int.TryParse(_configuration["TokenOptions:RefreshTokenTTL"], out int refreshTokenValidityInDays);
+            _ = int.TryParse(_configuration["TokenOptions:RefreshTokenTTL"],
+                out int refreshTokenValidityInDays);
 
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpiryTime = DateTime.Now.AddDays(refreshTokenValidityInDays);
@@ -66,7 +70,6 @@ public class LoginCommand : IRequest<LoginedCommandResponse>
                 RefreshToken = refreshToken,
                 Expiration = token.ValidTo
             };
-
         }
     }
 }

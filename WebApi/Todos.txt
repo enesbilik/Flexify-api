@@ -8,5 +8,17 @@ Consultant için controller hazırlanacak
 Appointments tablosundaki randevular için yapı düşünülecek
 
 
+Todos :
+
+Consultant
+1 - Tüm consultantları dönen bir metot => filtreleme yapılabilmeli
+2 - Popular consultantları dönen bir metot => rating'e göre
+3 - 
+
+Appointment
+1 - Yaklaşan randevular => tarihe göre ilk 5 
+2 - Geçmiş randevular => startTime'ye göre göre şu anın gerisinde kalan randevuları getir
+3 - Gelecek randevuları getir
+4 - Doktor sayfasından ilgili gün ve saate göre randevu oluştur
 
 

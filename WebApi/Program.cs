@@ -27,6 +27,7 @@ builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddHttpContextAccessor();
+// builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddStackExchangeRedisCache(opt => opt.Configuration = "localhost:6379");
 

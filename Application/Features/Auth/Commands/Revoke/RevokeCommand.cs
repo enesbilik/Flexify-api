@@ -1,6 +1,8 @@
 ﻿using System;
 using Application.Features.Auth.Rules;
 using AutoMapper;
+using Core.Application.Pipelines.Logging;
+using Core.Application.Pipelines.Transaction;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -8,12 +10,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Features.Auth.Commands.Revoke;
 
-public class RevokeCommand : IRequest<Unit>
+public class RevokeCommand : IRequest<Unit>, ITransactionalRequest, ILoggableRequest 
 {
     public string Email { get; set; }
-
-
-
 
 
     public class RevokeCommandHandler : IRequestHandler<RevokeCommand, Unit>
@@ -39,4 +38,3 @@ public class RevokeCommand : IRequest<Unit>
         }
     }
 }
-

@@ -6,6 +6,7 @@ using Application.Features.Auth.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Core.Application.Pipelines.Logging;
+using Core.Application.Pipelines.Transaction;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -14,7 +15,8 @@ using static StackExchange.Redis.Role;
 
 namespace Application.Features.Auth.Commands.Register;
 
-public class RegisterCommand : IRequest<RegisteredCommandResponse>, ILoggableRequest
+public class RegisterCommand : IRequest<RegisteredCommandResponse>, ILoggableRequest,
+    ITransactionalRequest
 {
     public string Email { get; set; }
     public string Password { get; set; }
@@ -82,7 +84,7 @@ public class RegisterCommand : IRequest<RegisteredCommandResponse>, ILoggableReq
                 }
                 else if (request.UserType == UserType.Consultant)
                 {
-                    var consultant = _mapper.Map<Consultant>(request.ConsultantInfoDto);
+                    var consultant = _mapper.Map<Domain.Entities.Consultant>(request.ConsultantInfoDto);
                     consultant.Email = request.Email;
                     await _consultantRepository.AddAsync(consultant);
                 }
