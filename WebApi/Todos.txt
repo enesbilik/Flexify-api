@@ -22,3 +22,11 @@ Appointment
 4 - Doktor sayfasından ilgili gün ve saate göre randevu oluştur
 
 
+ConsultantPreferences tablosu oluştur ve içinde bir consultant'a ait olan tüm preference'ları tut
+Örnek olarak 
+1 - Randevular kaçta başlayıp bitecek
+2 - Randevu aralığı ne olacak
+3 - Öğle arası ne zaman
+4 - Kaç gün sonrasına randevu verilebilir olsun => default 7 
+5 - Haftasonları randevu verilebilsin mi ? 
+

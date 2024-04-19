@@ -32,4 +32,5 @@ public class Consultant : Entity<Guid>
 
     public virtual ICollection<Review> Reviews { get; set; }
     public virtual ICollection<Appointment> Appointments { get; set; }
+    public virtual ConsultantPreferences ConsultantPreferences { get; set; }
 }

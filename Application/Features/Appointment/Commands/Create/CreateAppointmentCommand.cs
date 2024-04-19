@@ -40,7 +40,7 @@ public class CreateAppointmentCommand : IRequest<CreatedAppointmentResponse>, IT
         public async Task<CreatedAppointmentResponse> Handle(CreateAppointmentCommand request,
             CancellationToken cancellationToken)
         {
-            var mail = _httpContextAccessor.HttpContext.User.Identity.Name;
+            
 
             var currentUserMail = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Email);
 

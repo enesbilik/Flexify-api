@@ -38,10 +38,12 @@ public class RegisterCommand : IRequest<RegisteredCommandResponse>, ILoggableReq
         private readonly IMapper _mapper;
         private readonly IConsultantRepository _consultantRepository;
         private readonly IClientRepository _clientRepository;
+        private readonly IConsultantPreferencesRepository _consultantPreferencesRepository;
 
         public RegisterCommandHandler(AuthRules authRules, UserManager<AppUser> userManager,
             RoleManager<AppRole> roleManager, IMapper mapper,
-            IConsultantRepository consultantRepository, IClientRepository clientRepository)
+            IConsultantRepository consultantRepository, IClientRepository clientRepository,
+            IConsultantPreferencesRepository consultantPreferencesRepository)
         {
             _authRules = authRules;
             _userManager = userManager;
@@ -49,6 +51,7 @@ public class RegisterCommand : IRequest<RegisteredCommandResponse>, ILoggableReq
             _mapper = mapper;
             _consultantRepository = consultantRepository;
             _clientRepository = clientRepository;
+            _consultantPreferencesRepository = consultantPreferencesRepository;
         }
 
         public async Task<RegisteredCommandResponse> Handle(RegisterCommand request,
@@ -86,7 +89,11 @@ public class RegisterCommand : IRequest<RegisteredCommandResponse>, ILoggableReq
                 {
                     var consultant = _mapper.Map<Domain.Entities.Consultant>(request.ConsultantInfoDto);
                     consultant.Email = request.Email;
+
+                    var consultantPreferences = new Domain.Entities.ConsultantPreferences(consultantId: consultant.Id);
+
                     await _consultantRepository.AddAsync(consultant);
+                    await _consultantPreferencesRepository.AddAsync(consultantPreferences);
                 }
             }
 

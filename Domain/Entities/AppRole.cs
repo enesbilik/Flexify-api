@@ -8,5 +8,7 @@ public class AppRole : IdentityRole<Guid>
     public AppRole()
     {
     }
+    
+   
 }
 

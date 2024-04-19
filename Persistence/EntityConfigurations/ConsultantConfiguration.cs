@@ -50,6 +50,10 @@ public class ConsultantConfiguration : IEntityTypeConfiguration<Consultant>
             .HasForeignKey(a => a.ConsultantId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.HasOne(c => c.ConsultantPreferences)
+            .WithOne(cp => cp.Consultant)
+            .HasForeignKey<ConsultantPreferences>(cp => cp.ConsultantId);
+
 
         builder.HasQueryFilter(c => !c.DeletedDate.HasValue);
     }
