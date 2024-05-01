@@ -40,11 +40,9 @@ public class LoginCommand : IRequest<LoginedCommandResponse>, ITransactionalRequ
         {
             AppUser? user = await _userManager.FindByEmailAsync(request.Email);
 
-            await _authRules.UserDontExists(user);
-
             bool checkPassword = await _userManager.CheckPasswordAsync(user!, request.Password);
 
-            await _authRules.EmailOrPasswordShouldNotBeInvalid(user, checkPassword);
+            await _authRules.EmailOrPasswordIsWrong(user, checkPassword);
 
             IList<string> roles = await _userManager.GetRolesAsync(user);
 

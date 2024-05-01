@@ -1,3 +1,4 @@
+using Application.Features.Appointment.Queries.GetUpcomingAppointmentsList;
 using Application.Features.Consultant.Queries.GetById;
 using Application.Features.Consultant.Queries.GetList;
 using Application.Features.Consultant.Queries.GetListByDynamic;
@@ -17,6 +18,9 @@ public class MappingProfiles : Profile
         CreateMap<Domain.Entities.Consultant, GetListByDynamicConsultantListItemDto>().ReverseMap();
         CreateMap<Paginate<Domain.Entities.Consultant>, GetListResponse<GetListByDynamicConsultantListItemDto>>()
             .ReverseMap();
+
+        CreateMap<Domain.Entities.Appointment, GetUpcomingAppointmentsListItemDto>().ReverseMap();
+        CreateMap<Paginate<Domain.Entities.Appointment>, GetListResponse<GetUpcomingAppointmentsListItemDto>>().ReverseMap();
 
 
         CreateMap<Domain.Entities.Consultant, GetByIdConsultantResponse>().ReverseMap();

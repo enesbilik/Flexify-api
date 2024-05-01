@@ -16,5 +16,6 @@ public static class AuthMessages
     public const string UserMailAlreadyExists = "User mail already exists.";
     public const string PasswordDontMatch = "Password don't match.";
     public const string EmailOrPasswordShouldNotBeInvalid = "Email or password should not be invalid";
+    public const string EmailOrPasswordIsWrong = "Email or password is wrong.";
     public const string EmailAddressShouldBeValid = "Email address should be valid";
 }

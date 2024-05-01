@@ -20,9 +20,7 @@ public class GetByIdConsultantResponse
 
     public string Title { get; set; }
 
-    public DateTime CreatedDate { get; set; }
+    public double Rating { get; set; }
 
-    public DateTime? UpdatedDate { get; set; }
-
-    public DateTime? DeletedDate { get; set; }
+    public int ServiceCount { get; set; } 
 }

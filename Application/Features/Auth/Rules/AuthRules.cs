@@ -6,7 +6,6 @@ using Domain.Entities;
 
 namespace Application.Features.Auth.Rules;
 
-
 public class AuthRules : BaseBusinessRules
 {
     public Task UserMailAlreadyExists(AppUser? user)
@@ -14,11 +13,13 @@ public class AuthRules : BaseBusinessRules
         if (user is not null) throw new BusinessException(AuthMessages.UserMailAlreadyExists);
         return Task.CompletedTask;
     }
-    public Task EmailOrPasswordShouldNotBeInvalid(AppUser? user, bool checkPassword)
+
+    public Task EmailOrPasswordIsWrong(AppUser? user, bool checkPassword)
     {
-        if (user is null || !checkPassword) throw new BusinessException(AuthMessages.EmailOrPasswordShouldNotBeInvalid);
+        if (user is null || !checkPassword) throw new BusinessException(AuthMessages.EmailOrPasswordIsWrong);
         return Task.CompletedTask;
     }
+
     public Task RefreshTokenShouldNotBeExpired(DateTime? expiryDate)
     {
         if (expiryDate <= DateTime.Now) throw new BusinessException(AuthMessages.RefreshTokenShouldNotBeExpired);
@@ -30,8 +31,4 @@ public class AuthRules : BaseBusinessRules
         if (user is null) throw new BusinessException(AuthMessages.UserDontExists);
         return Task.CompletedTask;
     }
-
-
-
-
 }

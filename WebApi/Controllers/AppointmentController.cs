@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Features.Appointment.Commands.Create;
+using Application.Features.Appointment.Queries.GetAppointmentsAvailabilityList;
 using Application.Features.Appointment.Queries.GetListByDynamic;
+using Application.Features.Appointment.Queries.GetUpcomingAppointmentsList;
 using Application.Features.Consultant.Queries.GetListByDynamic;
 using Core.Application.Requests;
 using Core.Application.Responses;
@@ -42,6 +44,24 @@ public class AppointmentController : BaseController
 
         GetListResponse<GetListByDynamicAppointmentListItemDto> response =
             await Mediator.Send(getListByDynamicAppointmentQuery);
+
+        return Ok(response);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> GetAppointmentAvailabilityList([FromBody] GetAppointmentAvailabilityListQuery request)
+    {
+        var response = await Mediator.Send(request);
+        return Ok(response);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetUpcomingAppointmentsList()
+    {
+        var getUpcomingAppointmentsListQuery = new GetUpcomingAppointmentsListQuery();
+
+        GetListResponse<GetUpcomingAppointmentsListItemDto> response =
+            await Mediator.Send(getUpcomingAppointmentsListQuery);
 
         return Ok(response);
     }

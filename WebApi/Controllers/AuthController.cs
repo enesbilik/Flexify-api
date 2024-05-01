@@ -13,14 +13,14 @@ namespace WebApi.Controllers;
 public class AuthController : BaseController
 {
     [HttpPost]
-    public async Task<IActionResult> Register([FromBody] RegisterCommand request)
+    public async Task<IActionResult> Register(RegisterCommand request)
     {
         RegisteredCommandResponse registeredCommandResponse = await Mediator.Send(request);
         return StatusCode(StatusCodes.Status201Created, registeredCommandResponse);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Login(LoginCommand request)
+    public async Task<IActionResult> Login([FromBody] LoginCommand request)
     {
         LoginedCommandResponse response = await Mediator.Send(request);
         return StatusCode(StatusCodes.Status200OK, response);

@@ -40,8 +40,6 @@ public class CreateAppointmentCommand : IRequest<CreatedAppointmentResponse>, IT
         public async Task<CreatedAppointmentResponse> Handle(CreateAppointmentCommand request,
             CancellationToken cancellationToken)
         {
-            
-
             var currentUserMail = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Email);
 
             var currentClient = await _clientRepository.GetAsync(c => c.Email == currentUserMail,
@@ -50,6 +48,7 @@ public class CreateAppointmentCommand : IRequest<CreatedAppointmentResponse>, IT
 
             var appointment = _mapper.Map<Domain.Entities.Appointment>(request);
             appointment.ClientId = currentClient.Id;
+            appointment.Status = Domain.Enums.AppointmentStatus.Pending;
 
             await _appointmentRepository.AddAsync(appointment);
 

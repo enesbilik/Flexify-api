@@ -2,9 +2,10 @@ namespace Domain.Enums;
 
 public enum AppointmentStatus
 {
-    Pending = 0,
-    Accepted = 1,
-    Rejected = 2,
-    Completed = 3,
-    Canceled = 4,
+    Empty = 0,
+    Pending = 1,
+    Accepted = 2,
+    Rejected = 3,
+    Completed = 4,
+    Canceled = 5,
 }

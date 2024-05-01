@@ -10,3 +10,5 @@ public class GetListByDynamicAppointmentListItemDto
     public string ConsultantName { get; set; }
     public string ClientName { get; set; }
 }
+
+
