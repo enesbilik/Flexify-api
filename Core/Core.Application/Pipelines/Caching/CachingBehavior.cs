@@ -21,7 +21,7 @@ public class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
     public CachingBehavior(IDistributedCache cache, ILogger<CachingBehavior<TRequest, TResponse>> logger, IConfiguration configuration)
     {
         _cacheSettings = configuration.GetSection("CacheSettings").Get<CacheSettings>() ?? throw new InvalidOperationException();
-        _cache = cache;
+         _cache = cache;
         _logger = logger;
     }
 
@@ -80,6 +80,7 @@ public class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
         }
         else
             cacheKeysInGroup = new HashSet<string>(new[] { request.CacheKey });
+
         byte[] newCacheGroupCache = JsonSerializer.SerializeToUtf8Bytes(cacheKeysInGroup);
 
         byte[]? cacheGroupCacheSlidingExpirationCache = await _cache.GetAsync(

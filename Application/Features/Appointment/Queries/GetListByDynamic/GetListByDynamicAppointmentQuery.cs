@@ -35,9 +35,8 @@ public class GetListByDynamicAppointmentQuery : IRequest<GetListResponse<GetList
         {
             Paginate<Domain.Entities.Appointment> appointments = await _appointmentRepository.GetListByDynamicAsync(
                 dynamic: request.DynamicQuery,
-                include: a =>
-                    a.Include(co => co.Consultant)
-                        .Include(cl => cl.Client),
+                include: a => a.Include(co => co.Consultant)
+                    .Include(cl => cl.Client),
                 index:
                 request.PageRequest.PageIndex,
                 size:

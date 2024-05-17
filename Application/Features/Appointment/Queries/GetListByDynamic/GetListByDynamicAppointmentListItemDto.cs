@@ -9,6 +9,8 @@ public class GetListByDynamicAppointmentListItemDto
     public AppointmentStatus Status { get; set; }
     public string ConsultantName { get; set; }
     public string ClientName { get; set; }
+    public string ClientSurname { get; set; }
+    public DateTime CreatedDate { get; set; }
 }
 
 

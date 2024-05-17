@@ -1,4 +1,5 @@
 using Application.Features.Appointment.Commands.Create;
+using Application.Features.Appointment.Queries.GetById;
 using Application.Features.Appointment.Queries.GetListByDynamic;
 using Application.Features.Consultant.Queries.GetListByDynamic;
 using AutoMapper;
@@ -17,5 +18,7 @@ public class MappingProfiles : Profile
         CreateMap<Domain.Entities.Appointment, GetListByDynamicAppointmentListItemDto>().ReverseMap();
         CreateMap<Paginate<Domain.Entities.Appointment>, GetListResponse<GetListByDynamicAppointmentListItemDto>>()
             .ReverseMap();
+
+        CreateMap<Domain.Entities.Appointment, GetByIdAppointmentResponse>().ReverseMap();
     }
 }

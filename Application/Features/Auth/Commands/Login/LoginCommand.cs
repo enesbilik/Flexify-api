@@ -12,8 +12,7 @@ using Core.Application.Pipelines.Transaction;
 
 namespace Application.Features.Auth.Commands.Login;
 
-public class LoginCommand : IRequest<LoginedCommandResponse>, ITransactionalRequest,
-    ILoggableRequest
+public class LoginCommand : IRequest<LoginedCommandResponse>, ILoggableRequest, ITransactionalRequest
 {
     [DefaultValue("hasankaya@gmail.com")] public string Email { get; set; }
     [DefaultValue("123321")] public string Password { get; set; }

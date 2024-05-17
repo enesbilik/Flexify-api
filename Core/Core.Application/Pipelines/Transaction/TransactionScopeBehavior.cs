@@ -11,7 +11,6 @@ public class TransactionScopeBehavior<TRequest, TResponse> : IPipelineBehavior<T
     {
         using TransactionScope transactionScope = new(TransactionScopeAsyncFlowOption.Enabled);
         TResponse response;
-
         try
         {
             response = await next();
@@ -19,8 +18,7 @@ public class TransactionScopeBehavior<TRequest, TResponse> : IPipelineBehavior<T
         }
         catch (Exception)
         {
-            transactionScope.Dispose();
-            throw;
+            transactionScope.Dispose(); throw;
         }
         return response;
 

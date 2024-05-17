@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Features.Appointment.Commands.Create;
+using Application.Features.Appointment.Commands.Delete;
 using Application.Features.Appointment.Queries.GetAppointmentsAvailabilityList;
+using Application.Features.Appointment.Queries.GetById;
 using Application.Features.Appointment.Queries.GetListByDynamic;
 using Application.Features.Appointment.Queries.GetUpcomingAppointmentsList;
 using Application.Features.Consultant.Queries.GetListByDynamic;
@@ -64,5 +66,25 @@ public class AppointmentController : BaseController
             await Mediator.Send(getUpcomingAppointmentsListQuery);
 
         return Ok(response);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById([FromRoute] Guid id)
+    {
+        GetByIdAppointmentQuery getByIdAppointmentQuery = new() { Id = id };
+
+        var response = await Mediator.Send(getByIdAppointmentQuery);
+
+        return Ok(response);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> DeleteById([FromRoute] Guid id)
+    {
+        var deleteAppointmentCommand = new DeleteAppointmentCommand { Id = id };
+
+        await Mediator.Send(deleteAppointmentCommand);
+
+        return Ok();
     }
 }

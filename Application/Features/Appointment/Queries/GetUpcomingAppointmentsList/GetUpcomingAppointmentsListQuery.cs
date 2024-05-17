@@ -3,6 +3,7 @@ using Application.Features.Consultant.Queries.GetList;
 using Application.Services.Repositories;
 using AutoMapper;
 using Core.Application.Responses;
+using Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -47,7 +48,7 @@ public class GetUpcomingAppointmentsListQuery : IRequest<GetListResponse<GetUpco
                         .Include(cl => cl.Client),
                 cancellationToken: cancellationToken,
                 size: 200,
-                predicate: a => a.StartTime >= DateTime.Now && a.ClientId == currentClient!.Id,
+                predicate: a => a.StartTime >= DateTime.Now && a.ClientId == currentClient!.Id && a.Status != AppointmentStatus.Empty,
                 orderBy: a => a.OrderBy(a => a.StartTime)
             );
 

@@ -38,7 +38,7 @@ public class GetAppointmentAvailabilityListQuery : IRequest<List<GetAppointmentA
                         .Include(cl => cl.Client),
                 cancellationToken: cancellationToken,
                 size: 200,
-                predicate: a => a.ConsultantId == request.ConsultantId && a.StartTime >= tomorrow
+                predicate: a => a.ConsultantId == request.ConsultantId && a.StartTime >= tomorrow && a.Status != AppointmentStatus.Empty
             );
 
 

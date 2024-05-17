@@ -24,7 +24,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Features\Appointment\Constants" />
-		<Folder Include="Features\Appointment\Rules" />
 		<Folder Include="Features\ConsultantPreferences\Queries" />
 		<Folder Include="Services\" />
 		<Folder Include="Services\Repositories\" />
