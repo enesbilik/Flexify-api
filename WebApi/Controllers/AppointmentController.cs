@@ -4,10 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Features.Appointment.Commands.Create;
 using Application.Features.Appointment.Commands.Delete;
+using Application.Features.Appointment.Commands.Update;
 using Application.Features.Appointment.Queries.GetAppointmentsAvailabilityList;
 using Application.Features.Appointment.Queries.GetById;
+using Application.Features.Appointment.Queries.GetConsultantUpcomingAppointmentList;
 using Application.Features.Appointment.Queries.GetListByDynamic;
 using Application.Features.Appointment.Queries.GetUpcomingAppointmentsList;
+using Application.Features.Appointment.Queries.GetWaitingApprovalAppointmentList;
 using Application.Features.Consultant.Queries.GetListByDynamic;
 using Core.Application.Requests;
 using Core.Application.Responses;
@@ -57,6 +60,13 @@ public class AppointmentController : BaseController
         return Ok(response);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> UpdateAppointmentStatus([FromBody] UpdateAppointmentCommand request)
+    {
+        var response = await Mediator.Send(request);
+        return Ok(response);
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetUpcomingAppointmentsList()
     {
@@ -67,6 +77,30 @@ public class AppointmentController : BaseController
 
         return Ok(response);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetConsultantUpcomingAppointmentsList()
+    {
+        var getConsultantUpcomingAppointmentListQuery = new GetConsultantUpcomingAppointmentListQuery();
+
+        GetListResponse<GetConsultantUpcomingAppointmentListItemDto> response =
+            await Mediator.Send(getConsultantUpcomingAppointmentListQuery);
+
+
+        return Ok(response);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetWaitingApprovalAppointmentList()
+    {
+        var getWaitingApprovalAppointmentListQuery = new GetWaitingApprovalAppointmentListQuery();
+
+        GetListResponse<GetWaitingApprovalAppointmentListItemDto> response =
+            await Mediator.Send(getWaitingApprovalAppointmentListQuery);
+
+        return Ok(response);
+    }
+
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById([FromRoute] Guid id)

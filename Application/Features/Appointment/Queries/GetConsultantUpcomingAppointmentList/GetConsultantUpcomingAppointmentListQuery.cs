@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using Application.Features.Consultant.Queries.GetList;
 using Application.Services.Repositories;
 using AutoMapper;
 using Core.Application.Responses;
@@ -8,39 +7,37 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Features.Appointment.Queries.GetUpcomingAppointmentsList;
+namespace Application.Features.Appointment.Queries.GetConsultantUpcomingAppointmentList;
 
-public class GetUpcomingAppointmentsListQuery : IRequest<GetListResponse<GetUpcomingAppointmentsListItemDto>>
+public class GetConsultantUpcomingAppointmentListQuery : IRequest<GetListResponse<GetConsultantUpcomingAppointmentListItemDto>>
 {
-    public class GetUpcomingAppointmentsListQueryHandler : IRequestHandler<GetUpcomingAppointmentsListQuery,
-        GetListResponse<GetUpcomingAppointmentsListItemDto>>
+    
+    public class GetConsultantUpcomingAppointmentListQueryHandler : IRequestHandler<GetConsultantUpcomingAppointmentListQuery,
+        GetListResponse<GetConsultantUpcomingAppointmentListItemDto>>
     {
         private readonly IMapper _mapper;
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IClientRepository _clientRepository;
+        private readonly IConsultantRepository _consultantRepository;
 
-
-        public GetUpcomingAppointmentsListQueryHandler(IMapper mapper, IAppointmentRepository appointmentRepository,
-            IHttpContextAccessor httpContextAccessor, IClientRepository clientRepository)
+        public GetConsultantUpcomingAppointmentListQueryHandler(IMapper mapper, IAppointmentRepository appointmentRepository,
+            IHttpContextAccessor httpContextAccessor, IConsultantRepository consultantRepository)
         {
             _mapper = mapper;
             _appointmentRepository = appointmentRepository;
             _httpContextAccessor = httpContextAccessor;
-            _clientRepository = clientRepository;
+            _consultantRepository = consultantRepository;
         }
 
-        public async Task<GetListResponse<GetUpcomingAppointmentsListItemDto>> Handle(GetUpcomingAppointmentsListQuery request,
+        public async Task<GetListResponse<GetConsultantUpcomingAppointmentListItemDto>> Handle(GetConsultantUpcomingAppointmentListQuery request,
             CancellationToken cancellationToken)
         {
             var currentUserMail = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Email);
 
-            var currentClient = await _clientRepository.GetAsync(c => c.Email == currentUserMail,
+            var currentConsultant = await _consultantRepository.GetAsync(c => c.Email == currentUserMail,
                 cancellationToken: cancellationToken);
 
-
             DateTime today = DateTime.Today;
-
 
             var appointments = await _appointmentRepository.GetListAsync(
                 include: a =>
@@ -49,14 +46,14 @@ public class GetUpcomingAppointmentsListQuery : IRequest<GetListResponse<GetUpco
                 cancellationToken: cancellationToken,
                 size: 200,
                 predicate: a => a.StartTime >= DateTime.Now 
-                                && a.ClientId == currentClient!.Id 
+                                && a.ConsultantId == currentConsultant!.Id 
                                 && a.Status == AppointmentStatus.Accepted,
                 
                 orderBy: a => a.OrderBy(a => a.StartTime)
             );
 
-            GetListResponse<GetUpcomingAppointmentsListItemDto> response =
-                _mapper.Map<GetListResponse<GetUpcomingAppointmentsListItemDto>>(appointments);
+            GetListResponse<GetConsultantUpcomingAppointmentListItemDto> response =
+                _mapper.Map<GetListResponse<GetConsultantUpcomingAppointmentListItemDto>>(appointments);
 
             return response;
         }
